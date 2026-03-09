@@ -1,0 +1,42 @@
+Practical no 3: perform the data classification using classification algo in r
+
+install.packages("party")
+library("party")
+input.dat<-readingSkills[c(1:105),]
+output.tree<-ctree(nativeSpeaker~age+showSize+score,data=input.dat)
+plot(output.tree)
+dev.off()
+plot(output.tree)
+
+
+practical no 4: perform data clustering using clustering algo in r
+
+newiris <- iris
+print(newiris)
+newiris$Species<-NULL
+(kc <- kmeans(newiris,3))
+
+practical no 5: 
+perform the linear regression on the given data warehouse data using r
+
+x <- c(100,110,130,143,156,170)
+y <-c(50,55,60,72,66,89)
+r <- lm(y~x)
+print(r)
+print(summary(r))
+a <- data.frame(x=130)
+res <- predict(r,a)
+print(res)
+plot(y,x,col="red",main="HEIGHT_AND_WIDTH",abline(lm(x~y),cex=1.3,pch=16,xlab="Weight",ylab="Height")
+
+practical 8: perform data visulation
+
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+df = pd.read_csv('/content/Book2.csv')
+df.columns=df.columns.str.strip()
+sns.lineplot(data=df,x='Date',y='Sales',marker='o')
+plt.title('Sales Over Time')
+plt.xticks(rotation=45)
+plt.show()
