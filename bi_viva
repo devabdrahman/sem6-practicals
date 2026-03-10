@@ -1,0 +1,53 @@
+q.1 what is the difference between mapplotlib and pandas
+	pandas: Used for data manipulation and analysis
+	mapplotlib: Used for data visualization (graphs)
+
+q2. what is the difference between supervised and unsupervised learning
+	supervised: used labled data, specific output
+		eg: classification, regression -> decision tree, knn, svm
+	unsupervised: used unlabeled data, hidden pattern or group
+		eg: clustering, Association
+
+q3. what is the difference between classification and clustering
+	above
+	classification: predict category
+	clustering: create groups
+
+q4. what is regression
+		Regression is a supervised learning technique used to predict continuous
+		numerical values based on input data.
+
+q5.	what is the difference between linear regression and logistic regression
+	Linear regression predicts continuous numerical values,
+	logistic regression is used for classification and predicts the probability of a class (0 or 1).
+	
+q6. what is data analytics?
+	Data analytics is the process of analyzing data to find useful information
+	and support	decision-making.
+	
+q7. what id data mining
+	data mining is the process of discovering patterns from large data set
+
+q8. what is data warehouse
+	data warehouse is a centralized system used to store large amounts of data from different sources
+	
+q.9. what is OLAP(Online Analytical Processing)
+	technology that used to analyze multidimensional data quickly
+
+q.10 k means algo
+	K-Means is an unsupervised clustering algorithm that divides data into K groups based on similarity.
+	steps
+	.Choose the number of clusters K
+	.Select initial centroids (center points)
+	.Assign each data point to the nearest centroid
+	.Recalculate the centroids
+	.Repeat until clusters stop changing
+
+q.11 pivot table: convert large dataset in excel
+q.12 pivot chart: grapical representation of pivot table
+
+q.13 what is what-if analysis
+	check how changing value effect result
+
+q.14 fact table: contains measurable numerical data for analysis
+	 decision table: contains detailes or description about the data in the fact table
