@@ -1,0 +1,110 @@
+1. create new project > select "Empty Views Activity" template > give name and set "Build configuration language" to "Groovy DSL (build.gradle)" > Click Finish.
+
+
+
+
+
+
+
+
+activity_main.xml :
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar1"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:indeterminate="false"
+        android:max="10"
+        android:padding="4dip"></ProgressBar>
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button"
+        android:text="Button"
+        android:onClick="startProgress" />
+
+
+</LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MainActivity.java : 
+
+package com.example.prac9a;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ProgressBar;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+import kotlinx.coroutines.scheduling.Task;
+
+public class MainActivity extends AppCompatActivity {
+
+    private ProgressBar bar;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        bar = (ProgressBar) findViewById(R.id.progressBar1);
+
+    }
+
+
+    public void startProgress(View view) {
+        bar.setProgress(0);
+        new Thread(new Task()).start();
+    }
+
+
+
+    class Task implements Runnable {
+        @Override
+        public void run() {
+            for(int i = 0; i <= 10; i++) {
+                final int value = i;
+
+                try{
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                bar.setProgress(value);
+            }
+        }
+    }
+}

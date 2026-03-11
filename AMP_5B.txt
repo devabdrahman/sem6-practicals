@@ -1,0 +1,236 @@
+activity_main.xml :
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical"
+    >
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_dialog"
+        android:onClick="onClickDialog"
+        android:text="Click to Display an AlertDialog" />
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_progressdialog"
+        android:onClick="onClickProgressDialog"
+        android:text="Click to Display an ProgressDialog" />
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_datedialog"
+        android:onClick="onClickDateDialog"
+        android:text="Click to Display a DatePickerDialog" />
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_timedialog"
+        android:onClick="onClickTimeDialog"
+        android:text="Click to Display a TimePickerDialog" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView_date"
+        android:textSize="50dp" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView_time"
+        android:textSize="50dp" />
+
+</LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MainActivity.java :
+
+package com.example.practical5b;
+
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
+import android.content.DialogInterface;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.DatePicker;
+import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
+import java.util.Calendar;
+
+public class MainActivity extends AppCompatActivity {
+
+    CharSequence[] items = {"Android", "Security", "Cloud"};
+    boolean[] itemsChecked = new boolean[items.length];
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+
+    public void onClickDialog(View v) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("This is Alert Dialog...");
+
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast.makeText(getBaseContext(),
+                "OK Clicked",
+                Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast.makeText(getBaseContext(),
+                "Alert Dialog Cancelled",
+                Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        builder.setMultiChoiceItems(items, itemsChecked, new DialogInterface.OnMultiChoiceClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int id, boolean isChecked) {
+                Toast.makeText(getBaseContext(),
+                items[id] + (isChecked ? " checked..." : " unchecked..."),
+                Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        builder.show();
+    }
+
+
+
+
+    //@SuppressWarnings("deprecation")
+    public void onClickProgressDialog(View v){
+        final ProgressDialog pDialog = new ProgressDialog(this);
+        pDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        pDialog.setMessage("Loading...");
+        pDialog.incrementProgressBy(20);
+        pDialog.setButton(Dialog.BUTTON_POSITIVE,
+                "Stop Progress",
+                new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                pDialog.dismiss();
+            }
+        });
+        pDialog.show();
+    }
+
+
+
+
+
+    public void onClickDateDialog(View v){
+        final int mYear, mMonth, mDay;
+        final TextView DateDisplay = (TextView) findViewById(R.id.textView_date);
+        DatePickerDialog dateDialog;
+
+        Calendar c = Calendar.getInstance();
+        mYear = c.get(Calendar.YEAR);
+        mMonth = c.get(Calendar.MONTH);
+        mDay = c.get(Calendar.DAY_OF_MONTH);
+
+
+        final DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int day) {
+                DateDisplay.setText(new StringBuilder()
+                        .append("Date : ")
+                        .append(day)
+                        .append("-")
+                        .append(month+1)
+                        .append("-")
+                        .append(year));
+
+            }
+        };
+
+        dateDialog = new
+                DatePickerDialog(this,
+                                 mDateSetListener,
+                                 mYear,
+                                 mMonth,
+                                 mDay);
+
+        dateDialog.show();
+    }
+
+
+
+
+
+    public void onClickTimeDialog(View v){
+        final int mHour, mMinute;
+        final TextView TImeDisplay = (TextView) findViewById(R.id.textView_time);
+
+        TimePickerDialog timeDialog;
+
+        Calendar c = Calendar.getInstance();
+        mHour = c.get(Calendar.HOUR_OF_DAY);
+        mMinute = c.get(Calendar.MINUTE);
+
+        TimePickerDialog.OnTimeSetListener mTimeSetListener = new
+                TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hour, int minute) {
+                        TImeDisplay.setText(new StringBuilder()
+                                            .append("Time : ")
+                                            .append(hour)
+                                            .append(":")
+                                            .append(minute));
+
+                    }
+                };
+
+        timeDialog = new TimePickerDialog(this,
+                mTimeSetListener,
+                mHour,
+                mMinute,
+                true);
+        timeDialog.show();
+    }
+}

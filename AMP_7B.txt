@@ -1,0 +1,154 @@
+Note : Practical 7B requires very lightweight virtual device(emulator), without it, Your machine may struggle.
+
+
+1. Create a New Project as usual, but while entering Your project name, there is a dropdown below for Build configuration language, select Groovy DSL (build.grade) from that dropdown. then click on Finish
+
+2. app > manifests > AndroidManifest.xml > just after <manifest ...> tag opens and just before <application ...> tag opens, type : 
+
+<uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+
+
+
+
+
+
+
+activity_main.xml : 
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:id="@+id/btn_notify"
+        android:text="Notify"
+        android:onClick="displayNotification" />
+
+
+</RelativeLayout>
+
+
+
+
+
+
+
+
+
+MainActivity.java :
+
+package com.example.prac7b;
+
+import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+
+public class MainActivity extends AppCompatActivity {
+
+    public final String CHANNEL_ID = "personal_notification";
+    public final int NOTIFICATION_ID = 1;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+
+    public void displayNotification(View view) {
+
+        createNotificationChannel();
+
+        Toast.makeText(getApplicationContext(), "Hi", Toast.LENGTH_LONG).show();
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID);
+
+        builder.setSmallIcon(R.mipmap.ic_launcher);
+        builder.setContentTitle("Notification");
+        builder.setContentText("This is a notification");
+        builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            // Request the permission if it's missing
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 101);
+            }
+            return;
+        }
+        notificationManagerCompat.notify(NOTIFICATION_ID, builder.build());
+
+    }
+
+
+    public void createNotificationChannel() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+            CharSequence name = "Personal Notification";
+            String description = "This is Description";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+
+            NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, name, importance);
+
+            notificationChannel.setDescription(description);
+
+            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+            notificationManager.createNotificationChannel(notificationChannel);
+
+        }
+
+
+    }
+
+
+}
+
+
+
+
+
+
+
+
+Now the IMPORTANT STEPS : 
+
+1. Find Tools menu(located on top of screen) 
+	- (i) Click SDK Manager.
+	- (ii) Make Sure You are in "Android SDK" tab(left side of screen).
+	- (iii) uncheck the checkbox "Hide Obsolete Packages".
+	- (iv) scroll down in the list of APIs until You see Android 7.0 ("Nougat") section.
+	- (v) tick : "Android SDK Platform 24" and "Intel x86 Atom System Image".
+	- (vi) Click on "OK".
+
+2. for creating a new virtal device like PIXEL XL, click on Device Manager(available in Tools menu, or maybe a mobile icon at right side of your screen resembling to "Device Manager").
+
+3. click on Create Virtual Device > check the checkbox for "Show obsolete device profiles" on left side of pop-up.
+
+4. scroll down in Devices list. find a device called Nexus 6 (Obsolete)
+	- Click Next.
+	- Select "Show All" from "API" Dropdown list.
+	- Select "Show All" from "Services" Dropdown list.
+	- Scroll down in "System Image" list to find "Intel x86 Atom System Image", Select it.
+	- Click Finish(Now Your lightweight Nexus 6 Emulator should be created).
+	- Use Nexus 6 Emulator to Run Your App.
+

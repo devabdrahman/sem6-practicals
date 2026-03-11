@@ -1,0 +1,218 @@
+activity_main.xml :
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="This is Dialog Fragment"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_Alert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="50dp"
+        android:onClick="AlertFragment"
+        android:text="Alert" />
+
+    <Button
+        android:id="@+id/btn_Dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_Alert"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:onClick="DialogFragment"
+        android:text="Dialog" />
+
+</RelativeLayout>
+
+
+
+
+
+
+
+
+
+
+
+1. res > right click on Layout folder > new > Layout Resource File > File name : dialogfragment, Root element : RelativeLayout, Source set : main src/main/res, Directory name : layout > click OK
+
+dialogfragment.xml :
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:padding="10dp"
+        android:text="This is Dialog Fragment 2"
+        />
+
+
+</RelativeLayout>
+
+
+
+
+
+
+
+
+
+
+
+2. app > java > right click on first com.example.practical5c folder > new > Java Class > Name : DFragment > Click Enter
+
+DFragment.java :
+
+package com.example.practical5c;
+
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+
+public class DFragment extends DialogFragment {
+
+    //@Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+
+
+        View rootView = inflater.inflate(R.layout.dialogfragment, container, false);
+        getDialog().setTitle("DialogFragment Test");
+        return rootView;
+    }
+}
+
+
+
+
+
+
+
+
+
+now, follow step 2. to create a java class file named AlertDFragment
+
+AlertDFragment.java :
+
+package com.example.practical5c;
+
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.DialogFragment;
+
+public class AlertDFragment extends DialogFragment {
+
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+        return new AlertDialog.Builder(getActivity())
+
+                //Set Dialog Icon
+                .setIcon(android.R.mipmap.sym_def_app_icon)
+
+                //Set Dialog Title
+                .setTitle("AlertDialog Fragment")
+
+                //Set Dialog Message
+                .setMessage("Alert DialogFragment Tutorial")
+
+                //Positive Button
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        Toast.makeText(getContext(),
+                                "OK Clicked",
+                                Toast.LENGTH_LONG).show();
+
+                    }
+                }).create();
+
+    }
+}
+
+
+
+
+
+
+
+
+MainActivity.java :
+
+package com.example.practical5c;
+
+import android.os.Bundle;
+import android.view.View;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+
+public class MainActivity extends AppCompatActivity {
+
+    FragmentManager fm;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        fm = getSupportFragmentManager();
+    }
+
+    public void DialogFragment(View view){
+
+        DFragment dFragment = new DFragment();
+
+        //Show DialogFragment
+        dFragment.show(fm, "Dialog Fragment");
+
+    }
+
+    public void AlertFragment(View view){
+
+        AlertDFragment alertDFragment = new AlertDFragment();
+
+        //Show Alert DialogFragment
+        alertDFragment.show(fm, "Alert Dialog Fragment");
+
+    }
+}
+
+
+
+
+
+
+

@@ -1,0 +1,100 @@
+activity_main.xml : 
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="234dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView"
+        android:text="Count" />
+
+    <Button
+        android:layout_width="236dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/bStartTimer"
+        android:text="Start Timer Count"
+        android:onClick="timer" />
+
+    <Button
+        android:layout_width="234dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/bStartNonTimer"
+        android:text="Start Non Timer Count"
+        android:onClick="nonTimer" />
+
+</LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+MainActivity.java :
+
+package com.example.prac9b;
+
+import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    TextView textView;
+    private int stopLoop = 30;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        textView = (TextView) findViewById(R.id.textView);
+    }
+
+    public void timer(View view) {
+        //to imprt Handler class, choose : import android.os.Handler;
+        final Handler handler = new Handler();
+        handler.post(new Runnable(){
+            @Override
+            public void run() {
+                if(stopLoop > 0) {
+                    stopLoop--;
+                    textView.setText("Time : " + stopLoop);
+                    handler.postDelayed(this, 1000);
+                }
+                else {}
+            }
+        });
+    }
+
+
+    public void nonTimer(View view) {
+        //This code will lead to hang state
+        int i = 0;
+        for(i=0; i < 3; i++){
+            textView.setText("Time : " + i);
+
+            try{
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}

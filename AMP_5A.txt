@@ -1,0 +1,113 @@
+1. right click on res folder > create a new folder named menu
+2. right click on menu folder > new > Menu Resource File > file name : mymenu, root element : menu, directory name : menu
+
+mymenu.xml :
+
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    >
+
+    <item
+        android:id="@+id/newb"
+        android:title="Bookmarks" />
+
+    <item
+        android:id="@+id/search"
+        android:title="Search" />
+
+    <item
+        android:id="@+id/save"
+        android:title="Save" />
+
+    <item
+        android:id="@+id/share"
+        android:title="Share" />
+
+    <item
+        android:id="@+id/delete"
+        android:title="Delete" />
+
+    <item
+        android:id="@+id/exit"
+        android:title="Exit" />
+
+</menu>
+
+
+
+
+
+
+
+
+
+
+in res folder > values > themes.xml (first one), replace the parent attrbute's value of 1st style element to : "Theme.AppCompat.Light.DarkActionBar"
+
+
+
+
+
+
+
+
+activity_main.xml :
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+
+
+
+MainActivity.java : 
+
+package com.example.practical5;
+
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater mi = getMenuInflater();
+        mi.inflate(R.menu.mymenu, menu);
+        return true;
+    }
+}

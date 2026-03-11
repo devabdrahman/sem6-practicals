@@ -1,0 +1,122 @@
+acitivity_main.xml :
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical">
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Enter a value..."
+        android:id="@+id/editText_text" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Click"
+        android:id="@+id/btn_click"
+        android:layout_centerVertical="true"
+        android:onClick="showNewText" />
+
+</LinearLayout>
+
+
+
+
+
+
+
+
+1. app > java > right click on first folder (com.example.prac6) > new > Activity > Empty Views Activity > File name : newpage > Click Finish
+
+activity_newpage.xml(auto-created from step 1.) :
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".newpage">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/textView_view"
+        android:textSize="20dp" />
+
+</RelativeLayout>
+
+
+
+
+
+
+
+newpage.java (auto-created from step 1.) :
+
+package com.example.prac6;
+
+import android.os.Bundle;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+public class newpage extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_newpage);
+        TextView tv1 = (TextView) findViewById(R.id.textView_view);
+        String myvalue = getIntent().getExtras().getString("my key");
+        tv1.setText("Value : " + myvalue);
+
+
+    }
+}
+
+
+
+
+
+
+
+
+MainActivity.java :
+
+package com.example.prac6;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+
+    public void showNewText(View view){
+
+        EditText ed = (EditText) findViewById(R.id.editText_text);
+        String msg = ed.getText().toString();
+        Intent in = new Intent(this, newpage.class);
+        in.putExtra("my key", msg);
+        startActivity(in);
+
+    }
+}
